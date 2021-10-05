@@ -23,12 +23,13 @@
 int main(){
     struct Point{
         int x, y;
-    } x;
+    };
 
+    auto x = new Point();
 
     // Construction on the stack: you can build empty ptr, they point to null, they are assignable
-    OwnedPtr<Point> ptr1 = &x;
-    BorrowedPtr<Point> ptr2 = &x;
+    OwnedPtr<Point> ptr1 = x;
+    BorrowedPtr<Point> ptr2 = x;
 
     // They can not be allocated on the heap, it is meaningless
     //auto ptr5  = new OwnedPtr<int>(&x); ERROR, OwnedPtr is not allowed to be allocated on the heap
@@ -45,7 +46,7 @@ int main(){
 
     //use it by operator * and ->
     (*ptr7).x ++;
-    ptr7->x ++;
+    ptr7->y ++;
 
     return 0;
 
