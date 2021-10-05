@@ -10,20 +10,36 @@ An owner-aware pointer type for C++. The concept being implemented is the owners
 
 So what we can do:
 ```cpp
-    int x;
+    struct Point{
+        int x, y;
+    } x;
 
     // Construction on the stack: you can build empty ptr, they point to null, they are assignable
-    OwnedPtr<int> ptr1 = &x;
-    BorrowedPtr<int> ptr2 = &x;
+    OwnedPtr<Point> ptr1 = &x;
+    BorrowedPtr<Point> ptr2 = &x;
 
     // Borrow an OwnedPtr:
-    BorrowedPtr<int> ptr5 = ptr1;
+    BorrowedPtr<Point> ptr5 = ptr1;
     // You can not gain ownership from BorrowedPtr;
     //OwnedPtr<int> ptr6 = ptr5; // ERROR
-    
+
     // You can transfer the ownership:
-    OwnedPtr<int> ptr7 = ptr1;
+    OwnedPtr<Point> ptr7 = ptr1;
     // Now, ptr1 points to null
+
+    //use it by operator * and ->
+    (*ptr7).x ++;
+    ptr7->x ++;
+
+    return 0;
 
     // Once OwnedPtr ptr7 goes out-of-scope, it is automatically freed.
 ```
+
+Example above is extracted from **example.cpp** you can play with it as the Makefile is provided.
+
+## How to use
+Copy the header file (**OwnershipPtr.hpp**) in you project.
+
+## Eventual configurations
+You may want to add some exception like assert(_ptr!=nullptr) in case of using null pointers.

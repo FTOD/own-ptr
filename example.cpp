@@ -21,24 +21,31 @@
 
 #include "OwnershipPtr.hpp"
 int main(){
-    int x;
+    struct Point{
+        int x, y;
+    } x;
+
 
     // Construction on the stack: you can build empty ptr, they point to null, they are assignable
-    OwnedPtr<int> ptr1 = &x;
-    BorrowedPtr<int> ptr2 = &x;
+    OwnedPtr<Point> ptr1 = &x;
+    BorrowedPtr<Point> ptr2 = &x;
 
     // They can not be allocated on the heap, it is meaningless
     //auto ptr5  = new OwnedPtr<int>(&x); ERROR, OwnedPtr is not allowed to be allocated on the heap
     //auto ptr6 = new BorrowedPtr<int>(*ptr1);   ERROR, BorrowedPtr is not allowed to be allocated on the heap
 
     // Borrow an OwnedPtr:
-    BorrowedPtr<int> ptr5 = ptr1;
+    BorrowedPtr<Point> ptr5 = ptr1;
     // You can not gain ownership from BorrowedPtr;
     //OwnedPtr<int> ptr6 = ptr5; // ERROR
 
     // You can transfer the ownership:
-    OwnedPtr<int> ptr7 = ptr1;
+    OwnedPtr<Point> ptr7 = ptr1;
     // Now, ptr1 points to null
+
+    //use it by operator * and ->
+    (*ptr7).x ++;
+    ptr7->x ++;
 
     return 0;
 

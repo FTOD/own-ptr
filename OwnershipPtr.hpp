@@ -22,6 +22,9 @@
 #ifndef OWNERSHIPPTR_H
 #define OWNERSHIPPTR_H
 
+#define ASSERT_STMT  //assert(isNull()); //Don't forget to import your library of assert
+
+
 template<class T> class OwnedPtr;
 
 template<class T>
@@ -45,9 +48,11 @@ public:
     void operator delete  ( void* ptr )=delete;
     void operator delete[]( void* ptr )=delete;
 
+    inline bool isNull(){return _ptr== nullptr;};
+
     // Access operations, the cast operator is not provided to limit its behavior
-    inline T& operator*(){return *_ptr;};
-    inline T* operator->(){return _ptr;};
+    inline T& operator*(){ ASSERT_STMT; return *_ptr;};
+    inline T* operator->(){ ASSERT_STMT; return _ptr;};
 private:
     T* _ptr;
 };
@@ -72,6 +77,8 @@ public:
     void operator delete  ( void* ptr )=delete;
     void operator delete[]( void* ptr )=delete;
 
+    inline bool isNull(){return _ptr== nullptr;};
+
     // Transfer the ownership
     OwnedPtr<T>& operator=(OwnedPtr<T>& t) noexcept {
         if (&t == this)
@@ -80,8 +87,8 @@ public:
     }
 
     // Access operations, the cast operator is not provided to limit its behavior
-    inline T& operator*(){return *_ptr;};
-    inline T* operator->(){return _ptr;};
+    inline T& operator*(){ ASSERT_STMT; return *_ptr;};
+    inline T* operator->(){ ASSERT_STMT; return _ptr;};
 
 private:
     T* _ptr;
