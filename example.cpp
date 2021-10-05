@@ -1,13 +1,28 @@
-# own-ptr
-An owner-aware pointer type for C++. The concept being implemented is the ownership like in Rust. Principles are below:
+/*
+ *  This file contains examples of using the ownership-aware pointers
+ *	This file is part of OTAWA
+ *	Copyright (c) 2021, Zhenyu Bai, IRIT UPS.
+ *
+ *	OTAWA is free software; you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation; either version 2 of the License, or
+ *	(at your option) any later version.
+ *
+ *	OTAWA is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with OTAWA; if not, write to the Free Software
+ *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ *	02110-1301  USA
+ */
 
-- One can never *delete* (*free*) a borrowed pointer;
-- One can *delete* an owned pointer;
-- One can borrow an owned pointer, i.e. available conversion from owned pointer to borrowed pointer;
-- One can not own a borrowed pointer i.e. impossible to convert from borrowed pointer to owned pointer;
+#include "OwnershipAwarePtr.hpp"
+int main(){
+    int x;
 
-Examples below are extracted from **example.cpp**. You can try it out you-self, the Makefile is provided.
-```cpp
     /**
      *  Construction
      */
@@ -39,4 +54,5 @@ Examples below are extracted from **example.cpp**. You can try it out you-self, 
     delete ptr1;
     // You can not delete a BorrowedPtr
     // delete ptr2; // ERROR
-```
+    return 0;
+}
