@@ -1,14 +1,14 @@
 /*
- *  This file contains examples of using the ownership-aware pointers
- *	This file is part of OTAWA
- *	Copyright (c) 2021, Zhenyu Bai, IRIT UPS.
+ *  This file contains a implementation of an ownership-aware pointer type for C++
+ *	This file is a part of own-ptr
+ *	Copyright (c) 2021, Zhenyu Bai
  *
- *	OTAWA is free software; you can redistribute it and/or modify
+ *	own-ptr is free software; you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
  *	the Free Software Foundation; either version 2 of the License, or
  *	(at your option) any later version.
  *
- *	OTAWA is distributed in the hope that it will be useful,
+ *	own-ptr is distributed in the hope that it will be useful,
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *	GNU General Public License for more details.
@@ -19,40 +19,28 @@
  *	02110-1301  USA
  */
 
-#include "OwnershipAwarePtr.hpp"
+#include "OwnershipPtr.hpp"
 int main(){
     int x;
 
-    /**
-     *  Construction
-     */
-    // Construction on the stack: you can build empty ptr, they point to null
-    OwnedPtr<int> ptr1;
-    BorrowedPtr<int> ptr2;
-    // Then they can be assigned (constructor called, copy assignment called)
-    ptr1 = &x;
-    ptr2 = &x;
+    // Construction on the stack: you can build empty ptr, they point to null, they are assignable
+    OwnedPtr<int> ptr1 = &x;
+    BorrowedPtr<int> ptr2 = &x;
 
-    // Construction on the stack, taking a pointer
-    OwnedPtr<int>ptr3  (&x);
-    BorrowedPtr<int> ptr4 (&x);
-
-    // They can not be allocated on the heap, it is meanless
+    // They can not be allocated on the heap, it is meaningless
     //auto ptr5  = new OwnedPtr<int>(&x); ERROR, OwnedPtr is not allowed to be allocated on the heap
     //auto ptr6 = new BorrowedPtr<int>(*ptr1);   ERROR, BorrowedPtr is not allowed to be allocated on the heap
 
-    /**
-     * Conversion between OwnedPtr and BorrowedPtr: OP -> BP is OK, BP -> OP is KO
-     */
-     // ptr1 = ptr2;  // BP -> OP: ERROR
-     ptr2 = ptr1; // OP -> BP : OK
+    // Borrow an OwnedPtr:
+    BorrowedPtr<int> ptr5 = ptr1;
+    // You can not gain ownership from BorrowedPtr;
+    //OwnedPtr<int> ptr6 = ptr5; // ERROR
 
-     /**
-      * Destruction
-      */
-    // You can delete a OwnedPtr, it will free the real pointer
-    delete ptr1;
-    // You can not delete a BorrowedPtr
-    // delete ptr2; // ERROR
+    // You can transfer the ownership:
+    OwnedPtr<int> ptr7 = ptr1;
+    // Now, ptr1 points to null
+
     return 0;
+
+    // Once OwnedPtr ptr7 goes out-of-scope, it is automatically freed.
 }
