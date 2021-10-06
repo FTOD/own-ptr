@@ -10,7 +10,7 @@ An owner-aware pointer type for C++. The concept being implemented is like the u
 
 ## Why not std::unique_ptr?
 *std::unique_ptr* is just the OwnedPointer of this project. I also want the BorrowedPointer type. 
-However, you can only use references if you want to borrow a *unique_ptr*. (maybe i haven't found the right way?) And references can not be changed. So I created this.
+However, you can only use references if you want to borrow a *unique_ptr*. (maybe i haven't found the right way?) And references can not be changed.
 
 ## Why not std::shared_ptr?
 Because it has a counter. The ownership is sufficient for it, so i don't want to counter.
