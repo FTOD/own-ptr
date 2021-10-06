@@ -22,9 +22,6 @@
 #ifndef OWNERSHIPPTR_H
 #define OWNERSHIPPTR_H
 
-#define ASSERT_STMT  //assert((bool)*this); //Don't forget to import your library of assert
-
-
 template<class T> class OwnedPtr;
 
 template<class T>
@@ -51,17 +48,33 @@ public:
     inline explicit operator bool (){return _ptr== nullptr;};
 
     // Accessing
-    inline T& operator*(){ ASSERT_STMT; return *_ptr;};
-    inline T* operator->(){ ASSERT_STMT; return _ptr;};
+    inline T& operator*() {
+        // ASSERT
+        return *_ptr;
+    }
+
+    inline T* operator->(){
+        // ASSERT
+        return _ptr;
+    };
 
     // Const versions
-    inline const T& operator*() const { ASSERT_STMT; return *_ptr;};
-    inline const T* operator->() const { ASSERT_STMT; return _ptr;};
+    inline const T& operator*() const {
+        // ASSERT
+        return *_ptr;
+    };
+    inline const T* operator->() const {
+        // ASSERT
+        return _ptr;
+    };
 
     // Cast to the pointer
-    inline explicit operator const T*() const { return *_ptr;};
-    inline explicit operator T*() { return *_ptr;};
+    inline explicit operator const T*() const { return _ptr;};
+    inline explicit operator T*() { return _ptr;};
 
+    // Comparing just like native pointers
+    inline bool operator==(const OwnedPtr<T>& t)const{return _ptr == t._ptr;};
+    inline bool operator!=(const OwnedPtr<T>& t)const{return _ptr != t._ptr;};
 private:
     T* _ptr;
 };
@@ -107,18 +120,39 @@ public:
             t._ptr = nullptr;
         return *this;
     }
-
+    OwnedPtr<T>& operator=(OwnedPtr<T>&& t) noexcept {
+        if (&t == this)
+            t._ptr = nullptr;
+        return *this;
+    }
     // Accessing
-    inline T& operator*(){ ASSERT_STMT; return *_ptr;};
-    inline T* operator->(){ ASSERT_STMT; return _ptr;};
+    inline T& operator*() {
+        // ASSERT
+        return *_ptr;
+    }
+
+    inline T* operator->(){
+        // ASSERT
+        return _ptr;
+    };
 
     // Const versions
-    inline const T& operator*() const { ASSERT_STMT; return *_ptr;};
-    inline const T* operator->() const { ASSERT_STMT; return _ptr;};
+    inline const T& operator*() const {
+        // ASSERT
+        return *_ptr;
+    };
+    inline const T* operator->() const {
+        // ASSERT
+        return _ptr;
+    };
 
     // Cast to the pointer
-    inline explicit operator const T*() const { return *_ptr;};
-    inline explicit operator T*() { return *_ptr;};
+    inline explicit operator const T*() const { return (const T*)_ptr;};
+    inline explicit operator T*() { return _ptr;};
+
+    // Comparing just like native pointers
+    inline bool operator==(const OwnedPtr<T>& t)const{return _ptr == t._ptr;};
+    inline bool operator!=(const OwnedPtr<T>& t)const{return _ptr != t._ptr;};
 
 private:
     T* _ptr;
