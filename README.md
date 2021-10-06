@@ -17,8 +17,8 @@ Because it has a counter. The ownership is sufficient for it, so i don't want th
 
 ## How to use
 ```cpp
-    struct Point{
-int x, y;
+struct Point{
+    int x, y;
 };
 
 auto x = new Point();
