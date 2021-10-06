@@ -125,6 +125,10 @@ public:
             t._ptr = nullptr;
         return *this;
     }
+
+    // Disable the copy constructor (it is a bit optional but its better to clarify that)
+    OwnedPtr<T>& operator=(const OwnedPtr<T>& t) = delete;
+
     // Accessing
     inline T& operator*() {
         // ASSERT
