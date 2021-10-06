@@ -22,7 +22,7 @@
 #ifndef OWNERSHIPPTR_H
 #define OWNERSHIPPTR_H
 
-#define ASSERT_STMT  //assert(isNull()); //Don't forget to import your library of assert
+#define ASSERT_STMT  //assert((bool)*this); //Don't forget to import your library of assert
 
 
 template<class T> class OwnedPtr;
@@ -48,11 +48,20 @@ public:
     void operator delete  ( void* ptr )=delete;
     void operator delete[]( void* ptr )=delete;
 
-    inline bool isNull(){return _ptr== nullptr;};
+    inline explicit operator bool (){return _ptr== nullptr;};
 
-    // Access operations, the cast operator is not provided to limit its behavior
+    // Accessing
     inline T& operator*(){ ASSERT_STMT; return *_ptr;};
     inline T* operator->(){ ASSERT_STMT; return _ptr;};
+
+    // Const versions
+    inline const T& operator*() const { ASSERT_STMT; return *_ptr;};
+    inline const T* operator->() const { ASSERT_STMT; return _ptr;};
+
+    // Cast to the pointer
+    inline explicit operator const T*() const { return *_ptr;};
+    inline explicit operator T*() { return *_ptr;};
+
 private:
     T* _ptr;
 };
@@ -90,7 +99,7 @@ public:
     void operator delete  ( void* ptr )=delete;
     void operator delete[]( void* ptr )=delete;
 
-    inline bool isNull(){return _ptr== nullptr;};
+    inline explicit operator bool (){return _ptr== nullptr;};
 
     // Transfer the ownership
     OwnedPtr<T>& operator=(OwnedPtr<T>& t) noexcept {
@@ -99,9 +108,17 @@ public:
         return *this;
     }
 
-    // Access operations, the cast operator is not provided to limit its behavior
+    // Accessing
     inline T& operator*(){ ASSERT_STMT; return *_ptr;};
     inline T* operator->(){ ASSERT_STMT; return _ptr;};
+
+    // Const versions
+    inline const T& operator*() const { ASSERT_STMT; return *_ptr;};
+    inline const T* operator->() const { ASSERT_STMT; return _ptr;};
+
+    // Cast to the pointer
+    inline explicit operator const T*() const { return *_ptr;};
+    inline explicit operator T*() { return *_ptr;};
 
 private:
     T* _ptr;
