@@ -47,7 +47,7 @@ int main(){
 
     // You can transfer the ownership:
     OwnedPtr<Point> ptr7 = ptr3;
-    // Now, ptr1 points to null
+    // Now, ptr3 points to null
 
     //use it by operator * and ->
     (*ptr7).x ++;
@@ -55,5 +55,5 @@ int main(){
 
     return 0;
 
-    // Once OwnedPtr ptr7 goes out-of-scope, it is automatically freed.
+    // Once the only owner ptr7 goes out-of-scope, it is automatically freed.
 }

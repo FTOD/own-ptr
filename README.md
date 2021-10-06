@@ -32,6 +32,10 @@ OwnedPtr<Point> ptr4{Point()};
 // A better way to be clear that we are allocating on the heap (we are calling new) which may be not that clear in the example above
 auto ptr3 = OwnedPtr<Point>::newFrom(Point());
 
+// They can not be allocated on the heap, it is meaningless
+//auto ptr5  = new OwnedPtr<int>(&x); ERROR, OwnedPtr is not allowed to be allocated on the heap
+//auto ptr6 = new BorrowedPtr<int>(*ptr1);   ERROR, BorrowedPtr is not allowed to be allocated on the heap
+
 // Borrow an OwnedPtr:
 BorrowedPtr<Point> ptr5 = ptr1;
 // You can not gain ownership from BorrowedPtr;
@@ -39,7 +43,7 @@ BorrowedPtr<Point> ptr5 = ptr1;
 
 // You can transfer the ownership:
 OwnedPtr<Point> ptr7 = ptr3;
-// Now, ptr1 points to null
+// Now, ptr3 points to null
 
 //use it by operator * and ->
 (*ptr7).x ++;
@@ -47,7 +51,7 @@ ptr7->y ++;
 
 return 0;
 
-// Once OwnedPtr ptr7 goes out-of-scope, it is automatically freed.
+// Once the only owner ptr7 goes out-of-scope, it is automatically freed.
 ```
 
 Example above is extracted from **example.cpp** you can play with it as the Makefile is provided.
