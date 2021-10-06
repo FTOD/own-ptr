@@ -45,7 +45,7 @@ public:
     void operator delete  ( void* ptr )=delete;
     void operator delete[]( void* ptr )=delete;
 
-    inline explicit operator bool (){return _ptr== nullptr;};
+    inline explicit operator bool () const {return _ptr== nullptr;};
 
     // Accessing
     inline T& operator*() {
@@ -112,7 +112,7 @@ public:
     void operator delete  ( void* ptr )=delete;
     void operator delete[]( void* ptr )=delete;
 
-    inline explicit operator bool (){return _ptr== nullptr;};
+    inline explicit operator bool () const {return _ptr== nullptr;};
 
     // Transfer the ownership
     OwnedPtr<T>& operator=(OwnedPtr<T>& t) noexcept {
