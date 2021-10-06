@@ -31,9 +31,10 @@ int main(){
     OwnedPtr<Point> ptr1 = x;
     BorrowedPtr<Point> ptr2 = x;
 
-    // A better way 
-    OwnedPtr<Point> ptr3 = OwnedPtr<Point>::newFrom(Point());
+    // Construction from rvalue prevent a 'leak' e.g. you can not do anything about the native pointer like the x
     OwnedPtr<Point> ptr4{Point()};
+    // A better way to be clear that we are allocating on the heap (we are calling new) which may be not that clear in the example above
+    auto ptr3 = OwnedPtr<Point>::newFrom(Point());
 
     // They can not be allocated on the heap, it is meaningless
     //auto ptr5  = new OwnedPtr<int>(&x); ERROR, OwnedPtr is not allowed to be allocated on the heap
@@ -45,7 +46,7 @@ int main(){
     //OwnedPtr<int> ptr6 = ptr5; // ERROR
 
     // You can transfer the ownership:
-    OwnedPtr<Point> ptr7 = ptr1;
+    OwnedPtr<Point> ptr7 = ptr3;
     // Now, ptr1 points to null
 
     //use it by operator * and ->
