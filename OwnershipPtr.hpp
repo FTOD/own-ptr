@@ -63,6 +63,18 @@ public:
     friend class BorrowedPtr<T>;
     OwnedPtr():_ptr(nullptr){};
 
+    // By rvalue reference, requires an empty constructor and a copy-assignement of T;
+    OwnedPtr(T&& t):_ptr(new T()){*_ptr = t;};
+    // To be more clear that a heap allocation occurred, one can use this method
+    static OwnedPtr newFrom(T&& t){
+        OwnedPtr op;
+        op._ptr = new T();
+        *op._ptr = t;
+        return op;
+    };
+
+
+
     // Construction from native pointer is possible
     OwnedPtr(T* t):_ptr(t){};
 

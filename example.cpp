@@ -31,6 +31,10 @@ int main(){
     OwnedPtr<Point> ptr1 = x;
     BorrowedPtr<Point> ptr2 = x;
 
+    // A better way 
+    OwnedPtr<Point> ptr3 = OwnedPtr<Point>::newFrom(Point());
+    OwnedPtr<Point> ptr4{Point()};
+
     // They can not be allocated on the heap, it is meaningless
     //auto ptr5  = new OwnedPtr<int>(&x); ERROR, OwnedPtr is not allowed to be allocated on the heap
     //auto ptr6 = new BorrowedPtr<int>(*ptr1);   ERROR, BorrowedPtr is not allowed to be allocated on the heap
