@@ -1,8 +1,8 @@
 # own-ptr
-An owner-aware pointer type for C++. The concept being implemented is like the unique_ptr of std, or the ownership like in Rust. Principles are below:
+An owner-aware pointer type for C++. The concept being implemented is like the smart pointers of the std(*std::unique_ptr/ std::shared_ptr*) but inspired by the ownership system of Rust. Principles are below:
 - They are two types of pointer, the *OwnedPointer* and the *BorrowedPointer*;
-- At a moment, there is only one owner of the memory (the native pointer) ;
-- When the only owner of the native pointer goes out-of-scope, the pointer is automatically freed(deleted);
+- At a moment, there is only one owner of the native pointer (who manages the memory);
+- When the only owner goes out-of-scope, the pointer is automatically freed(deleted);
 - Both *OwnedPointer* and *BorrowedPointer* can not be allocated on the heap, they behave like primitive types;
 - One can borrow an owned pointer, i.e. available conversion from owned pointer to borrowed pointer;
 - One can not own a borrowed pointer i.e. impossible to convert from borrowed pointer to owned pointer;
