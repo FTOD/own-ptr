@@ -101,8 +101,8 @@ public:
     OwnedPtr(T* t):_ptr(t){};
 
     // Create an owned pointer from an existing one, ownership is transferred
-    OwnedPtr(OwnedPtr<T>&& t):_ptr(t._ptr){t._ptr = nullptr;};
-    OwnedPtr(OwnedPtr<T>& t):_ptr(t._ptr){t._ptr = nullptr;};
+    OwnedPtr(OwnedPtr<T>&& t):_ptr(t._ptr){if (&t != this) t._ptr = nullptr;};
+    OwnedPtr(OwnedPtr<T>& t):_ptr(t._ptr){if (&t != this) t._ptr = nullptr;};
 
     ~OwnedPtr(){delete _ptr;};
 
@@ -116,12 +116,12 @@ public:
 
     // Transfer the ownership
     OwnedPtr<T>& operator=(OwnedPtr<T>& t) noexcept {
-        if (&t == this)
+        if (&t != this)
             t._ptr = nullptr;
         return *this;
     }
     OwnedPtr<T>& operator=(OwnedPtr<T>&& t) noexcept {
-        if (&t == this)
+        if (&t != this)
             t._ptr = nullptr;
         return *this;
     }
